@@ -93,57 +93,6 @@ volatile int lastInputState = LOW;
 unsigned long lastDebounceTime = 0;
 unsigned long debounceDelay = 50;
 
-void handleInterrupt() {
-  unsigned long currentMillis = millis();
-
-  // Check if enough time has passed since the last debounce
-  if (currentMillis - lastDebounceTime >= debounceDelay) {
-    int currentInputState = digitalRead(digitalInputPin);
-
-    // Check for a change in the digital input (0 to 1 or 1 to 0)
-    if (currentInputState != lastInputState) {
-      // Make the POST request
-      // Make the POST request
-      if(currentInputState == 1){
-        Serial.println("connection 1111");
-        const char* jsonData = "{\"status\": true}";
-        httpRequest(jsonData);
-      }else{
-        Serial.println("connection 0000");
-        const char* jsonData = "{\"status\": false}";
-        httpRequest(jsonData);
-      }
-
-      // Update the last input state with the current state
-      lastInputState = currentInputState;
-    }
-
-    // Update the debounce time
-    lastDebounceTime = currentMillis;
-  }
-}
-
-void handleInterrupt1() {
-  int currentInputState = digitalRead(digitalInputPin);
-  Serial.println(currentInputState);
-  // Check for a change in the digital input (0 to 1 or 1 to 0)
-  if (currentInputState != lastInputState) {
-    // Make the POST request
-    if(currentInputState == 1){
-      Serial.println("connection 1111");
-      const char* jsonData = "{\"status\": true}";
-      httpRequest(jsonData);
-    }else{
-      Serial.println("connection 0000");
-      const char* jsonData = "{\"status\": false}";
-      httpRequest(jsonData);
-    }
-    //sendPostRequest();
-    // Update the last input state with the current state
-    lastInputState = currentInputState;
-  }
-}
-
 void loop() {
   
   // if there's incoming data from the net connection.
@@ -166,11 +115,11 @@ void loop() {
       // Make the POST request
       if(currentInputState == 1){
         Serial.println("connection 1111");
-        const char* jsonData = "{\"status\": true}";
+        const char* jsonData = "{\"status\": false}";
         httpRequest(jsonData);
       }else{
         Serial.println("connection 0000");
-        const char* jsonData = "{\"status\": false}";
+        const char* jsonData = "{\"status\": true}";
         httpRequest(jsonData);
       }
 
